@@ -19,6 +19,9 @@ const PartidaSchema = Schema({
         type: Date,
         default: Date.now
     },
+    puntajeJugador: Number,
+    puntajeJugador2: Number,
+    puntajeCroupier: Number
 });
 
 module.exports = model('Partida', PartidaSchema, 'partidas');

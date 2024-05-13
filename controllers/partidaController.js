@@ -86,6 +86,10 @@ const startGame = async (req, res) => {
     repartirCartaJugador(partida);
     repartirCartaCroupier(partida);
 
+    partida.puntajeJugador = calcularManoJugador(partida);
+    partida.puntajeCroupier = calcularManoCroupier(partida);
+
+
     const user = await User.findOne({_id: partida.jugador}).exec();
 
     if (user.saldo < partida.apuesta) {
@@ -118,10 +122,12 @@ const hit = async (req, res) => {
 
     // Repartir una carta al jugador
     repartirCartaJugador(partida);
-    console.log(calcularManoJugador(partida));
+    partida.puntajeJugador = calcularManoJugador(partida);
+    partida.puntajeCroupier = calcularManoCroupier(partida);
     if(calcularManoJugador(partida) > 21){
         partida.resultado = 'PERDIDA';
     }
+
     // Guardar la partida
     await partida.save();
     // Devolver la partida en la respuesta
@@ -137,6 +143,7 @@ const stand = async (req, res) => {
     }
     // Calcular la mano del croupier
     const resultado = jugarManoCroupier(partida);
+    partida.puntajeCroupier = calcularManoCroupier(partida);
     if(resultado === 'GANADA'){
         user.saldo += partida.apuesta * 2;
         partida.resultado = 'GANADA';
@@ -150,7 +157,7 @@ const stand = async (req, res) => {
     console.log(user.saldo)
     await user.save();
     await partida.save();
-    res.status(200).json(partida.resultado, calcularManoJugador(partida), calcularManoCroupier(partida));
+    res.status(200).json(partida);
 
 
 }
