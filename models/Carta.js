@@ -6,10 +6,10 @@ const CartaSchema = Schema({
         required: true
     },
     palo: {
-        type: Number,
+        type: String,
         required: true
     },
-    imagen: {
+    figura: {
         type: String,
         required: true
     }

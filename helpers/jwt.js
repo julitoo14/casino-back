@@ -7,7 +7,7 @@ const secret = 'SECRETAA';
 const createToken = (user) => {
     const payload = {
         userName: user.userName,
-        userId: user.userId,
+        id: user._id,
         iat: moment().unix(),
         exp: moment().add(1440 , "minutes")
     };
