@@ -76,9 +76,10 @@ const jugarManoCroupier = (partida) => {
 const startGame = async (req, res) => {
     // Crear una nueva partida
     const partida = new Partida();
+    const params = req.body;
     const userId = req.params.userId;
     partida.jugador = userId
-    partida.apuesta = 200;
+    partida.apuesta = params.apuesta;
     partida.mazo = await Carta.find().exec();
     partida.mazo = mezclarMazo(partida.mazo);
     repartirCartaJugador(partida);

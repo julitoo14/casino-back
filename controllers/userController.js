@@ -106,10 +106,25 @@ const login = async (req, res) => {
     });
 }
 
+const getUser = async (req, res) => {
+    const user = await User.findById(req.params.id).exec();
+    if (!user) {
+        return res.status(404).send({
+            status: "error",
+            message: "User not found",
+        });
+    }
+    return res.status(200).send({
+        status: "success",
+        user,
+    });
+}
+
 
 
 module.exports = {
     register,
     cleanUpUsers,
     login,
+    getUser,
 };
